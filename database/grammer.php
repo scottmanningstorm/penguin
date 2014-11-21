@@ -75,6 +75,11 @@ class Grammer
 	
 	}
 
+	public function limit($limit)
+	{
+		$this->limit_by = $limit;
+	} 
+
     /**
      * adds a group by statment to our query string. 
      * @param $group string
@@ -211,6 +216,22 @@ class Grammer
 		$this->bindValues = ''; 
 		
 	}
+
+	public function clearDeleteGrammer() 
+	{
+
+		$this->wheres = array();	
+	
+		$this->limit_by = ''; 
+
+		$this->binds = array();
+
+		$this->table = '';
+
+		$this->bindValues = ''; 
+		
+	}
+
 
 }
 

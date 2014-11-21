@@ -37,6 +37,10 @@ class QueryBuilder
 										 'limitby', 
 										);
 	
+	protected $delete_components = array('delete',
+										 'where',
+										 'limit',
+										);  
 	 
 	 /**
 	 * Method will itterate over Update components and compile a sql statment based on properties set in this grammer object. 
@@ -46,8 +50,7 @@ class QueryBuilder
 	 * @return string $statment  
 	 */ 
 	public function compileUpdate(Grammer $grammer) 
-	{
-		
+	{	
 		$statment = $this->callMethod($grammer, $this->update_components); 
 		 
 		return $statment;
@@ -67,7 +70,14 @@ class QueryBuilder
 		 
 		return $statment;
 	}
-	 
+	
+	public function compileDelete(Grammer $grammer)
+	{
+		$statment = $this->callMethod($grammer, $this->delete_components); 
+		
+		return $statment;
+	}
+
 	 /**
 	 * Method will itterate over Insert components and compile a sql statment based on properties set in this grammer object. 
 	 *
@@ -77,13 +87,10 @@ class QueryBuilder
 	 */ 
 	public function compileInsert(Grammer $grammer)  
 	{
-		
 		$statment = $this->callMethod($grammer, $this->insert_components); 
 	
 		return $statment;
-
 	}
-
 
 	 /**
 	 * Method will itterate over passed in componenets and calls a correponding method to build up a query.  
@@ -93,9 +100,9 @@ class QueryBuilder
 	 * @param $grammer 
 	 * @return string $statment  
 	 */ 
-	public function callMethod($grammer, $select_components) 
+	public function callMethod($grammer, $components) 
 	{
-		foreach ($select_components as $value) {
+		foreach ($components as $value) {
 
 			$method = 'build'.ucfirst($value);
 		
@@ -139,7 +146,6 @@ class QueryBuilder
 	{
 		return 'INSERT INTO ' . $grammer->table;
 	} 
-
 
 	 /**
 	 * Method will build the columns part of a query string. 
@@ -319,6 +325,11 @@ class QueryBuilder
 		}
 
 		return $return; 
+	}
+
+	public function buildDelete(Grammer $grammer) 
+	{
+		return 'DELETE FROM ' .$grammer->table; 
 	}
 
 }

@@ -6,6 +6,7 @@
      */
 	$paths = array(
 
+		'../penguin-framwork/system/',
 		'../penguin-framwork/database/',
 		'../penguin-framwork/routing/',
 		'../penguin-framwork/controller/',

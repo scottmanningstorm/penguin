@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 Abstract class Active 
 {
@@ -55,7 +55,7 @@ Abstract class Active
 	}
 
 	 /**
-	  * Magic method __Call will be called if we try to call a metord which dose not exsit in this class. 
+	  * If we call a method which does not exsist in this class look inside Grammer class. 
 	  *
 	  * @access public
 	  * @param $name string 
@@ -117,11 +117,14 @@ Abstract class Active
 	  */
 	public function delete($id)
 	{
+		//$this->grammer->clear(); 
 
-		$this->query_builder->setWhere($this->wheres);
+		$this->grammer->where('id = :id');
 
-		$this->query_builder->deleteFromDatabase($id); 
+		$this->grammer->limit(1);
 
+		$this->query->getAssoc($this->query_builder->compileDelete($this->grammer), array('id' => $id)); 
+		 
 		return $this; 
 	}	
 

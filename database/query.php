@@ -112,6 +112,14 @@ class Query
 
 	} 
 
+	public function delete($query) 
+	{
+
+		$output = $this->process($query); 
+
+		return $output; 
+	}
+
 	 /**
 	  *  Method processes a query string, binds any optinal parameters to the query and executes the query.  
 	  *
@@ -124,10 +132,11 @@ class Query
 	{ 
 		try { 
 
+
 			$statment = $this->db->prepare($query); 
 
 			$statment = $this->bind($binds, $statment);
-			 
+			
 			$statment->execute(); 
 				 
 			return $statment;

@@ -45,7 +45,7 @@ class uri
 	} 
 
 	public function setMethod($method)
-	{
+	{	
 		$this->method = $method; 
 	} 
 
@@ -64,7 +64,9 @@ class uri
 
 		$this->setController($this->uri[0]); 		
 
-		$this->setMethod($this->uri[1]); 
+		if (isset($this->uri[1])) {
+			$this->setMethod($this->uri[1]); 
+		}
 
 		$this->setParams($this->extractParams());  
 

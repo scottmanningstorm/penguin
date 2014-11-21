@@ -32,8 +32,12 @@ class Route
 		if(!method_exists($class_name, $this->uri->getMethod())) {
 			 $this->uri->setMethod = 'index';
 		}
-
+		
+		$this->uri->setParams($this->uri->extractParams());
+		$this->uri->setParams($this->uri->getParams()); 
+  
 		$this->controller_obj = $this->router->loadController($class_name, $this->uri->getMethod(), $this->uri->getParams());  	
+		
 	}
 
 }
