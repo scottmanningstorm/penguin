@@ -33,7 +33,6 @@ class QueryBuilder
 	protected $update_components = array('update',
 										 'set',	 
 										 'where',
-										 'orderBy',
 										 'limitby', 
 										);
 	
@@ -127,10 +126,6 @@ class QueryBuilder
 	 */ 
 	public function buildUpdate(Grammer $grammer) 
 	{
-
-		if (!! $grammer->table) {
-			return 'UPDATE user';  
-		}
 		return 'UPDATE ' . $grammer->table;
 	} 
 
@@ -189,7 +184,13 @@ class QueryBuilder
 	 */ 
 	public function buildValues(Grammer $grammer)
 	{ 	
-		return 'VALUES (' .implode(', ', $grammer->binds ).' )';
+		$values = array();
+		foreach ($grammer->binds as $key => $value) {
+
+			$values[] = ':'.$key;
+		}
+
+		return 'VALUES (' .implode(', ', $values ).' )';
 	}
 	
 	 /**

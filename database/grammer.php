@@ -64,7 +64,8 @@ class Grammer
      */
 	public function where($args)
 	{
-	
+		$this->wheres = array(); 
+
 		$column = $this->table.'.'.$args[0]; 
 		
 		$bind_column = $this->table.'_'.$args[0]; 

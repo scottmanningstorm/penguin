@@ -76,12 +76,12 @@ class Query
 		}
 		
 		$output = $this->process($query, $binds); 
-
+	 
 		if ($output) {
 			
 			return $this->db->lastInsertId();
 		} else {
-			
+		
 			return false;
 		
 		}
@@ -136,7 +136,7 @@ class Query
 			$statment = $this->db->prepare($query); 
 
 			$statment = $this->bind($binds, $statment);
-			
+			var_dump($statment); 
 			$statment->execute(); 
 				 
 			return $statment;
@@ -205,6 +205,12 @@ class Query
 
 	 	} 
 		 
+	}
+
+
+	public function lastId() 
+	{
+		return $this->db->lastInsertId();
 	}
 
 }

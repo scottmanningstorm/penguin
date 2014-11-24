@@ -99,10 +99,8 @@ Abstract class Active
 	  * @return associativeArray. 
 	  */
 	public function find($id)
-	{
-		
-		$this->grammer->where('id = :id');
-
+	{		
+		//$this->grammer->where('id = :id');
 		$this->grammer->limit(1);
 
 		return $this->query->getAssoc($this->query_builder->compileSelect(), array('id' => $id));
@@ -117,13 +115,13 @@ Abstract class Active
 	  */
 	public function delete($id)
 	{
-		//$this->grammer->clear(); 
-
-		$this->grammer->where('id = :id');
+		$this->grammer->wheres = array();
+		
+		$this->where('id', '=', $id);
 
 		$this->grammer->limit(1);
-
-		$this->query->getAssoc($this->query_builder->compileDelete($this->grammer), array('id' => $id)); 
+		 
+		$this->query->getAssoc($this->query_builder->compileDelete($this->grammer), array('user_id' => $id)); 
 		 
 		return $this; 
 	}	
@@ -136,9 +134,7 @@ Abstract class Active
 	  */
 	public function get()
 	{
-
 		return $this->query->getAssoc($this->query_builder->compileSelect($this->grammer), $this->grammer->binds);
-		 
 	}
 
 	 /**
@@ -149,11 +145,9 @@ Abstract class Active
 	  */
 	public function insert($values) 
 	{  
-
 		$this->grammer->setBinds($values);  
-
+	
 	 	return $this->query->insert($this->query_builder->compileInsert($this->grammer), $values);
-
 	}
 
  	 /**
@@ -162,15 +156,30 @@ Abstract class Active
 	  * @access public
 	  * @return associativeArray. 
 	  */
-	public function update($values, $limit)
+	public function update($values)
 	{	
-		
-		$this->grammer->setBinds($values); 
-		
-		return $this->query->update($this->query_builder->compileUpdate($this->grammer), $this->grammer->getBinds()); 
-	
+		$this->grammer->setBinds($values);  
+		$this->query->update($this->query_builder->compileUpdate($this->grammer), $this->grammer->getBinds()); 
 	}	
+
+	public function getLastInsertedId() 
+	{
+		//returns 0 : FIX
+		return $this->query->lastId(); 
+	}
 	
+	public function getDb($table = '', $id = '') 
+	{
+		$this->grammer->binds = array(); 	
+		$this->grammer->setTable($table); 
+		$this->grammer->wheres = array();
+		if ($id === '') {
+			$this->where('id', '>', 0); 
+		} else {
+			$this->where('user_id', '=', $id); 
+		}
+		return $this->query->getAssoc($this->query_builder->compileSelect($this->grammer), $this->grammer->binds);
+	}
 
 }
 
